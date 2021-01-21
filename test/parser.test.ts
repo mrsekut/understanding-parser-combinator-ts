@@ -4,7 +4,7 @@ import * as M from 'fp-ts/lib/Monoid';
 import * as E from 'fp-ts/Either';
 
 import * as C from 'parser-ts/lib/char';
-import * as S from 'parser-ts/lib/String';
+import * as S from 'parser-ts/lib/string';
 import * as P from 'parser-ts/lib/Parser';
 import { run } from 'parser-ts/lib/code-frame';
 
@@ -45,6 +45,9 @@ describe('Apply', () => {
 });
 
 describe('Monad', () => {
+  it('chain :: (a -> p b) -> p a -> p b', () => {});
+  it('chainFirst :: (a -> p b) -> p a -> p a', () => {});
+
   it('flatten', () => {
     const parser = P.of<string, P.Parser<string, string>>(C.char('a'));
     assert(E.isRight(run(parser, 'a ')));
@@ -124,10 +127,11 @@ describe('maybe and optional', () => {
   });
 
   it('optional', () => {
-    const parser = P.optional(C.char('a'));
-    assert(E.isRight(run(parser, 'a')));
+    // /(hoge)?/
+    const parser = P.optional(S.string('hoge'));
+    assert(E.isRight(run(parser, 'hoge')));
 
-    assert(E.isRight(run(parser, 'b')));
+    assert(E.isRight(run(parser, 'fuga')));
     /**
      * このテストの書き方ではわかりづらいが、Some/Noneを返している
      */
@@ -173,6 +177,21 @@ describe('understanding parser-ts', () => {
 
     assert(E.isLeft(run(parser, 'a')));
     assert(E.isLeft(run(parser, 'ax')));
+  });
+
+  it('seq', () => {
+    // 連結する
+    // /foo(bar|baz)/
+
+    const foo = S.string('foo');
+    const barbaz = P.either(S.string('bar'), () => S.string('baz'));
+    const parser = P.seq(foo, () => barbaz);
+
+    assert(E.isRight(run(parser, 'foobar')));
+    assert(E.isRight(run(parser, 'foobaz')));
+
+    assert(E.isLeft(run(parser, 'foo')));
+    assert(E.isLeft(run(parser, 'xxx')));
   });
 
   it('withStart', () => {
