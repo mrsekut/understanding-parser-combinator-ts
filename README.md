@@ -1,4 +1,4 @@
-# Understanding parser-ts
+# Understanding parser-combinator-ts
 
 ## run
 
