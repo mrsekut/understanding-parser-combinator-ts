@@ -1,32 +1,19 @@
-// Run me with Node to see my output!
-// $ node examples/argv.js "foo -x"
-// $ node examples/argv.js "-x=1 bar"
-// $ node examples/argv.js "--some --thing=x"
-
 import P from 'parsimmon';
 
 export const p = P.createLanguage({
-  // parse: r => P.alt(P.string('is'), r.brackets).many(),
-  parse: r => P.alt(r.brackets, r.others).many(),
+  parse: r => P.alt(r.brackets, r.outside).many(),
 
-  // others: r =>
-  //   P.seq(
-  //     r.bbb,
-  //     P.alt(
-  //       P.takeWhile(c => c !== '['),
-  //       P.end,
-  //     ),
-  //   ),
-  others: r => P.notFollowedBy(r.brackets),
-
-  aaa: () => P.string('['),
-  bbb: r => P.notFollowedBy(r.aaa).result('not'),
+  outside: () => P.regexp(/[^\[]+/),
 
   lbracket: () => P.string('['),
   rbracket: () => P.string(']'),
 
   brackets: r => {
-    return r.lbracket.then(P.string('hoge')).skip(r.rbracket).node('bra');
+    return r.lbracket.then(
+      P.regexp(/[^\]]+/)
+        .skip(r.rbracket)
+        .node('bra'),
+    );
   },
 
   expression: function (r) {
