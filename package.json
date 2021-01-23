@@ -1,5 +1,5 @@
 {
-  "name": "understanding-parser-ts",
+  "name": "understanding-parser-combinator-ts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,9 +18,11 @@
   "author": "mrsekut",
   "license": "ISC",
   "dependencies": {
+    "@types/parsimmon": "^1.10.6",
     "fp-ts": "^2.9.3",
     "jest": "^26.6.3",
     "parser-ts": "^0.6.11",
+    "parsimmon": "^1.16.0",
     "typescript": "^4.1.3"
   },
   "devDependencies": {
