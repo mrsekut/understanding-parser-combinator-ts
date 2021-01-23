@@ -6,9 +6,9 @@ import * as C from 'parser-ts/lib/char';
 import * as S from 'parser-ts/lib/string';
 import * as P from 'parser-ts/lib/Parser';
 import { run } from 'parser-ts/lib/code-frame';
-import { brackets } from '../src';
 
 import { pipe } from 'fp-ts/lib/pipeable';
+import { brackets } from '../src';
 
 describe('understanding parser-ts', () => {
   it('result', () => {

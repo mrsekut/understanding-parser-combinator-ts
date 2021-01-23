@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import * as E from 'fp-ts/Either';
 import * as C from 'parser-ts/lib/char';
-import * as S from 'parser-ts/lib/String';
+import * as S from 'parser-ts/lib/string';
 import { run } from 'parser-ts/lib/code-frame';
 
 describe('fold', () => {
